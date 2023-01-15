@@ -20,7 +20,7 @@ routes.post("/login", loginUser);
 routes.get("/refresh", refreshToken);
 routes.get("/logout", logoutUser);
 
-routes.post("/public", createPost);
+routes.post("/create", createPost);
 
 routes.get("/search", getPosts);
 

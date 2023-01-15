@@ -48,6 +48,7 @@ export default function Register() {
       toast.update(id, { render: err, type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
     }
   };
+  
   return (
     <>
       <Container>
