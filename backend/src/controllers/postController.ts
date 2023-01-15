@@ -3,8 +3,7 @@ import Token from "../model/TokenModel";
 import express from "express";
 import Post from "../model/PostModel";
 
-const createPost = async (req: express.Request, res: express.Response) => {
- 
+export const createPost = async (req: express.Request, res: express.Response) => {
   const { title, description, type, categories, city, linkContacts } = req.body;
 
   const cookies = req.cookies;
@@ -38,4 +37,20 @@ const createPost = async (req: express.Request, res: express.Response) => {
   });
 };
 
-export default createPost;
+export const getPosts = async (req: express.Request, res: express.Response) => {
+  const { title, type } = req.body;
+
+  try {
+    const posts = await Post.find({
+      $or: [
+        {
+          title: { $regex: title },
+        },
+        { postType: { $regex: type } },
+      ],
+    });
+    res.status(400).json({ data: posts });
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+};

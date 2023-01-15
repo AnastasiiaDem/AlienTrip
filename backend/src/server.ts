@@ -10,8 +10,8 @@ const PORT = process.env.PORT;
 const { HOST, PORT_DB, DB } = process.env;
 
 const corsOptions = {
-  origin: true, //included origin as true
-  credentials: true, //included credentials as true
+  origin: true,
+  credentials: true,
 };
 
 app.use(cookieParser());

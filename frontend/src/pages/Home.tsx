@@ -20,6 +20,8 @@ export default function Home() {
           Create Post
         </Button>
       </Box>
+
+      <Search />
     </>
   );
 }
