@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
@@ -11,8 +11,11 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Box>
-        <Link to={"/admin"}>Admin</Link>
+
+      <Box marginTop={10}>
+        <Link color="green" to={"/admin"}>
+          Admin
+        </Link>
         <Link to={"/moderator"}>Moderator</Link>
         <Link to={"/info"}>Info</Link>
       </Box>

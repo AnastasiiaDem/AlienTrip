@@ -2,20 +2,26 @@ export {};
 import mongoose, { Schema } from "mongoose";
 
 interface IUser {
-  firstName: string;
-  lastName: string;
+  _id: Schema.Types.ObjectId;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  birthDate?: Date;
   email: string;
   password: string;
-  refreshToken: string;
   roles: Object;
 }
 
 export const UserSchema = new Schema<IUser>({
-  firstName: { type: String, required: true },
-  lastName: { type: String, required: true },
+  _id: Schema.Types.ObjectId,
+  name: {
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+  },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  refreshToken: String,
+  birthDate: Date,
   roles: {
     User: {
       type: Number,
@@ -26,5 +32,5 @@ export const UserSchema = new Schema<IUser>({
   },
 });
 
-const User = mongoose.model<IUser>("user", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
 export default User;

@@ -9,6 +9,7 @@ import verifyToken from "../middleware/verifyToken";
 import verifyRoles from "../middleware/verifyRoles";
 import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
+import createPost from "../controllers/postController";
 
 routes.get("/", (req: express.Request, res: express.Response) => {
   res.send("Test endpoint");
@@ -18,6 +19,8 @@ routes.post("/register", createUser);
 routes.post("/login", loginUser);
 routes.get("/refresh", refreshToken);
 routes.get("/logout", logoutUser);
+
+routes.post("/public", createPost);
 
 routes.get("/users", verifyRoles(ROLES.User), verifyToken, getAllUsers);
 module.exports = routes;

@@ -1,16 +1,16 @@
 const jwt = require("jsonwebtoken");
 import express from "express";
 import User from "../model/UserModel";
+import Token from "../model/TokenModel";
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = process.env;
 
 const refreshToken = async (req: express.Request, res: express.Response) => {
-  console.log(REFRESH_TOKEN_SECRET);
   const cookies = req.cookies;
   if (!cookies?.token) return res.status(401).json({ error: "error no cookies" });
 
   const refreshToken = cookies.token;
-
-  const foundUser = await User.findOne({ refreshToken: refreshToken }).exec();
+  const foundToken = await Token.findOne({ refreshToken: refreshToken }).exec();
+  const foundUser = await User.findById(foundToken?.userId);
 
   if (!foundUser) return res.status(403).json({ error: "error user not found" });
 

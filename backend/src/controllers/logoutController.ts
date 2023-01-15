@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../model/UserModel";
+import Token from "../model/TokenModel";
 
 const logoutUser = async (req: express.Request, res: express.Response) => {
   const cookies = req.cookies;
@@ -15,12 +16,12 @@ const logoutUser = async (req: express.Request, res: express.Response) => {
     return res.status(204).json({ error: "No token" });
   }
 
-  User.findOne({ refreshToken: refreshToken }, function (err: Error, user: any) {
+  Token.findOne({ refreshToken: refreshToken }, function (err: Error, token: any) {
     if (err) return res.status(400).json({ error: err });
 
-    if (user) {
-      user.refreshToken = "";
-      user.save((err: Error) => {
+    if (token) {
+      token.refreshToken = "";
+      token.save((err: Error) => {
         if (err) return res.status(400).json({ error: err });
       });
     }
