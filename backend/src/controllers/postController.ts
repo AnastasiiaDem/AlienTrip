@@ -16,6 +16,7 @@ export const createPost = async (req: express.Request, res: express.Response) =>
   if (!foundUser) return res.status(403).json({ error: "error user not found" });
 
   if (!title || !description || !postType || !category || !city)
+
     return res.status(400).json({ message: `Properties are required` });
 
   const newPost = new Post({
