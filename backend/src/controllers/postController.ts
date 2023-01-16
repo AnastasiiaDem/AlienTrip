@@ -4,7 +4,7 @@ import express from "express";
 import Post from "../model/PostModel";
 
 export const createPost = async (req: express.Request, res: express.Response) => {
-  const { title, description, type, category, city, linkContacts } = req.body;
+  const { title, description, postType, category, city, linkContacts } = req.body;
 
   const cookies = req.cookies;
   if (!cookies?.token) return res.status(401).json({ error: "error no cookies" });
@@ -15,14 +15,14 @@ export const createPost = async (req: express.Request, res: express.Response) =>
 
   if (!foundUser) return res.status(403).json({ error: "error user not found" });
 
-  if (!title || !description || !type || !category || !city)
+  if (!title || !description || !postType || !category || !city)
     return res.status(400).json({ message: `Properties are required` });
 
   const newPost = new Post({
     userId: foundUser._id,
     title: title,
     description: description,
-    type: type,
+    postType: postType,
     categories: [category],
     city: city,
     linkContacts: {
@@ -38,18 +38,42 @@ export const createPost = async (req: express.Request, res: express.Response) =>
 };
 
 export const getPosts = async (req: express.Request, res: express.Response) => {
-  const { title, postType, category } = req.query;
+  const { title, postType, category, city } = req.query;
+  console.log(title, postType, category, city);
 
   try {
     const posts = await Post.find({
-      $or: [
+      $and: [
         {
           title: { $regex: title },
         },
+        {
+          ...(postType ? { postType: postType } : {}),
+        },
+        { ...(category ? { categories: category } : {}) },
+        { ...(city ? { city: city } : {}) },
       ],
     });
+
+    if (posts.length == 0) return res.status(400).json({ message: "No content" });
+
     res.status(200).json({ posts: posts });
   } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error });
+  }
+};
+
+export const getEmail = async (req: express.Request, res: express.Response) => {
+  const id = req.params.id;
+  console.log(req.params);
+
+  try {
+    const user = await User.find({ _id: id }).exec();
+    if (!user) res.status(400).json({ error: "User is not found" });
+
+    res.status(200).json({ user: user });
+  } catch (error: any) {
     res.status(400).json({ error: error });
   }
 };

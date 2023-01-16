@@ -37,7 +37,7 @@ interface IPost {
 export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
+  const [postType, setPostType] = useState("");
   const [category, setCategory] = useState<string | null>("");
   const [city, setCity] = useState("");
 
@@ -60,7 +60,7 @@ export default function CreatePost() {
         {
           title: title,
           description: description,
-          type: type,
+          postType: postType,
           category: category,
           city: city,
         },
@@ -118,7 +118,7 @@ export default function CreatePost() {
                   name="type"
                   label="Type"
                   onChange={(e) => {
-                    setType(e.target.value);
+                    setPostType(e.target.value);
                   }}
                   fullWidth
                   required

@@ -17,6 +17,7 @@ const refreshToken = async (req: express.Request, res: express.Response) => {
   jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: Error, data: any) => {
     if (err || foundUser.email !== data.email) return res.status(403).json({ error: "error" + err });
 
+    const email = foundUser.email;
     const roles = Object.values(foundUser.roles);
 
     const accessToken = jwt.sign(
@@ -30,7 +31,7 @@ const refreshToken = async (req: express.Request, res: express.Response) => {
       { expiresIn: "15s" }
     );
 
-    res.status(200).json({ message: "Refreshed", roles, accessToken });
+    res.status(200).json({ message: "Refreshed", roles, accessToken, email });
   });
 };
 

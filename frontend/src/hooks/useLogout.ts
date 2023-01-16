@@ -9,7 +9,7 @@ export default function useLogout() {
     setAuth(initialAuthState);
 
     try {
-      await Axios.get("/logout", { withCredentials: true });
+      await Axios.get("/api/logout", { withCredentials: true });
     } catch (error: any) {
       console.log(error);
     }

@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 import Moderator from "./pages/Moderator";
 import Info from "./pages/Info";
-import Initial from "./pages/Initial";
+
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import { ALLOWED_ROLES } from "./config/allowedRolesConfig";
 import Unauthorized from "./pages/Unauthorized";
@@ -21,26 +21,27 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="login" element={<SignIn />} />
         <Route path="register" element={<SignUp />} />
-        <Route path="home" element={<Home />} />
-        <Route path="unauthorized" element={<Unauthorized />} />
-
         <Route element={<CheckToken />}>
+          <Route path="home" element={<Home />} />
+          <Route path="unauthorized" element={<Unauthorized />} />
           <Route element={<ProtectedRoutes allowedRoles={[ALLOWED_ROLES.Admin]} />}>
             <Route path="admin" element={<Admin />} />
           </Route>
           <Route element={<ProtectedRoutes allowedRoles={[ALLOWED_ROLES.Moderator]} />}>
             <Route path="moderator" element={<Moderator />} />
           </Route>
+
+          <Route
+            element={
+              <ProtectedRoutes allowedRoles={[ALLOWED_ROLES.Admin, ALLOWED_ROLES.Moderator, ALLOWED_ROLES.User]} />
+            }
+          >
+            <Route path="info" element={<Info />} />
+            <Route path="create" element={<CreatePost />} />
+          </Route>
         </Route>
-        <Route
-          element={
-            <ProtectedRoutes allowedRoles={[ALLOWED_ROLES.Admin, ALLOWED_ROLES.Moderator, ALLOWED_ROLES.User]} />
-          }
-        >
-          <Route path="info" element={<Info />} />
-          <Route path="create" element={<CreatePost />} />
-        </Route>
-        <Route path="*" element={<Initial />} />
+
+        <Route path="*" element={<Home />} />
       </Route>
     </Routes>
   );

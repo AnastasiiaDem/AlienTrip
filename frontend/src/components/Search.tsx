@@ -1,12 +1,11 @@
-import { Box, Grid, TextField, Button, Paper, Typography } from "@mui/material";
+import { Box, Grid, TextField, Button, Paper, Typography, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 import Axios from "../config/axiosConfig";
 import Autocomplete from "@mui/material/Autocomplete";
-import { padding } from "@mui/system";
 
-const postType = ["Потребую допомоги", "Можу допомогти"];
+import { useAuthContext } from "../context/AuthProvider";
+
 const categories = ["Їжа", "Матеріали", "Засоби гігієни", "Одяг", "Техніка", "Меблі"];
-const cities = ["Київ", "Одеса"];
 
 interface IPost {
   title: string;
@@ -22,9 +21,15 @@ export default function Search() {
   const [type, setType] = useState<string | null>("");
   const [city, setCity] = useState<string | null>("");
   const [error, setError] = useState<string>();
-  const [result, setResult] = useState<Array<IPost>>();
+  const [result, setResult] = useState<Array<IPost> | null>();
+  const [openContacts, setOpenContacts] = useState<boolean>(false);
+
+  const [email, setEmail] = useState<string>("");
+
+  const { auth } = useAuthContext();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setResult(null);
     console.log("submit");
     e.preventDefault();
 
@@ -43,6 +48,37 @@ export default function Search() {
       setError(error?.message);
     }
   };
+
+  const Contacts = (post: any) => {
+    if (auth?.accessToken) {
+      return (
+        <Box>
+          <Typography variant="body2">email: {email}</Typography>
+          {post.linkContacts?.instagram && (
+            <Typography variant="body2">instagram: {post.linkContacts?.instagram}</Typography>
+          )}
+          {post.linkContacts?.telegram && (
+            <Typography variant="body2">lelegram: {post.linkContacts?.telegram}</Typography>
+          )}
+        </Box>
+      );
+    }
+    return <Typography variant="body1">Ця опція доступна авторизована користувачам</Typography>;
+  };
+
+  const openContactsBlock = async (post: any) => {
+    try {
+      const res = await Axios.get(`/api/user/${post.userId}`);
+
+      console.log(res);
+      setEmail(res.data.user.email);
+      setOpenContacts(!openContacts);
+    } catch (error: any) {
+      console.log(error);
+      setError(error?.message);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -62,7 +98,6 @@ export default function Search() {
               name="search"
               label="Пошук"
               fullWidth
-              required
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
@@ -80,26 +115,39 @@ export default function Search() {
             />
           </Grid>
           <Grid item xs={2}>
-            <Autocomplete
+            <TextField
               id="city"
-              options={cities}
-              onChange={(e: any, newValue: string | null) => {
-                setCity(newValue);
+              name="city"
+              label="City"
+              fullWidth
+              onChange={(e) => {
+                setCity(e.target.value);
               }}
-              renderInput={(params) => <TextField {...params} label="Місто" />}
             />
           </Grid>
 
           <Grid item xs={2}>
-            <Autocomplete
+            <TextField
+              select
               id="type"
-              options={postType}
-              onChange={(e: any, newValue: string | null) => {
-                setType(newValue);
+              name="type"
+              label="Type"
+              onChange={(e) => {
+                setType(e.target.value);
               }}
-              renderInput={(params) => <TextField {...params} label="Тип" />}
-            />
+              fullWidth
+              required
+              defaultValue={""}
+            >
+              <MenuItem key="needHelp" value="needHelp">
+                Можу допомогти
+              </MenuItem>
+              <MenuItem key="help" value="help">
+                Потребую допомоги
+              </MenuItem>
+            </TextField>
           </Grid>
+
           <Grid item>
             <Button variant="outlined" type="submit">
               Пошук
@@ -108,40 +156,52 @@ export default function Search() {
         </Grid>
       </Box>
       <Box display={"flex"} alignItems="center" flexDirection={"column"}>
-        {result
-          ? result.map((post) => {
-              return (
-                <Box width={"50%"} marginTop={3}>
-                  <Paper elevation={5} sx={{ padding: 5 }}>
-                    <Grid container display={"flex"}>
-                      <Grid item xs={4}>
-                        <Typography variant="h5" component={"h2"} color="primary">
-                          {post.title}
-                        </Typography>
+        {result ? (
+          result.map((post) => {
+            return (
+              <Box width={"50%"} marginTop={3}>
+                <Paper elevation={5} sx={{ padding: 5 }}>
+                  <Grid container display={"flex"}>
+                    <Grid item xs={4}>
+                      <Typography variant="h5" component={"h2"} color="primary">
+                        {post.title}
+                      </Typography>
 
-                        <Typography variant="h6" color={"pink"}>
-                          {post.city}
-                        </Typography>
-                        <Box marginTop={5}>
-                          {" "}
-                          <Button size="small" variant="outlined">
-                            {" "}
-                            Відкрити контакти
-                          </Button>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={8}>
+                      <Typography variant="h6" color={"pink"}>
+                        {post.city}
+                      </Typography>
+                      <Box marginTop={5}>
                         {" "}
-                        <Typography width={"70%"} variant="body1" marginTop={2}>
-                          {post.description}
-                        </Typography>
-                      </Grid>
+                        <Button
+                          onClick={() => {
+                            openContactsBlock(post);
+                          }}
+                          size="small"
+                          variant="outlined"
+                        >
+                          {" "}
+                          Відкрити контакти
+                        </Button>
+                      </Box>
+
+                      {openContacts && <Contacts />}
                     </Grid>
-                  </Paper>
-                </Box>
-              );
-            })
-          : null}
+                    <Grid item xs={8}>
+                      {" "}
+                      <Typography width={"70%"} variant="body1" marginTop={2}>
+                        {post.description}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Box>
+            );
+          })
+        ) : error ? (
+          <Typography marginTop={5} variant="h5" color={"grey"}>
+            За Вашим запитом результатів не знайдено
+          </Typography>
+        ) : null}
       </Box>
     </>
   );
