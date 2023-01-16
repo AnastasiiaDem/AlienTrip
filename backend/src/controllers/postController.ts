@@ -4,7 +4,7 @@ import express from "express";
 import Post from "../model/PostModel";
 
 export const createPost = async (req: express.Request, res: express.Response) => {
-  const { title, description, postType, category, city, linkContacts } = req.body;
+  const { title, description, type, category, city, linkContacts } = req.body;
 
   const cookies = req.cookies;
   if (!cookies?.token) return res.status(401).json({ error: "error no cookies" });
@@ -16,6 +16,7 @@ export const createPost = async (req: express.Request, res: express.Response) =>
   if (!foundUser) return res.status(403).json({ error: "error user not found" });
 
   if (!title || !description || !postType || !category || !city)
+
     return res.status(400).json({ message: `Properties are required` });
 
   const newPost = new Post({
