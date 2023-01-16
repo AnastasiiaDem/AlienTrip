@@ -70,8 +70,7 @@ export default function Search() {
     try {
       const res = await Axios.get(`/api/user/${post.userId}`);
 
-      console.log(res);
-      setEmail(res.data.user.email);
+      setEmail(res.data.user[0].email);
       setOpenContacts(!openContacts);
     } catch (error: any) {
       console.log(error);
