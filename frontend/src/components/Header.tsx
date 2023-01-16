@@ -21,7 +21,7 @@ export default function Header() {
             Logo
           </Typography>
           <Box gap={2}>
-            {!auth?.email ? (
+            {!auth?.accessToken ? (
               <>
                 <Button color="inherit" component={Link} to={"/login"}>
                   Sign In

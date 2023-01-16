@@ -10,6 +10,7 @@ export default function useRefreshToken() {
 
       const accessToken = res.data.accessToken;
       const roles = res.data.roles;
+
       const newAuth = { ...auth, roles: roles, accessToken: accessToken };
       setAuth(newAuth);
 
