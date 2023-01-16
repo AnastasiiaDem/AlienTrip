@@ -82,7 +82,7 @@ export default function CreatePost() {
       });
       setTimeout(() => {
         navigate("/home", { replace: true });
-      }, 2000);
+      }, 1500);
     } catch (error: any) {
       const err = error?.response?.data?.message || error.message;
       toast.update(id, { render: err, type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
@@ -130,24 +130,6 @@ export default function CreatePost() {
                   <MenuItem key='needHelp' value='needHelp'>
                     Потребую допомоги
                   </MenuItem>
-                </TextField>
-                <TextField
-                  select
-                  id="category"
-                  name="category"
-                  label="Категорія"
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                  }}
-                  fullWidth
-                  required
-                  defaultValue={''}
-                >
-                  {categories.map(option => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
                 </TextField>
                 <TextField
                   id="title"

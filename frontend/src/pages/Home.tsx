@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import { useAuthContext } from "../context/AuthProvider";
+import React, {useState} from 'react';
+import {toast} from 'react-toastify';
+import Axios from '../config/axiosConfig';
 
 export default function Home() {
   const { auth } = useAuthContext();
-  console.log(auth);
-
+  
   return (
     <>
       <Header/>

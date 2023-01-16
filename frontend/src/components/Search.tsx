@@ -30,7 +30,6 @@ export default function Search() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setResult(null);
-    console.log("submit");
     e.preventDefault();
 
     try {
@@ -70,7 +69,6 @@ export default function Search() {
     try {
       const res = await Axios.get(`/api/user/${post.userId}`);
 
-      console.log(res);
       setEmail(res.data.user.email);
       setOpenContacts(!openContacts);
     } catch (error: any) {
@@ -100,8 +98,7 @@ export default function Search() {
               fullWidth
               onChange={(e) => {
                 setTitle(e.target.value);
-              }}
-            ></TextField>
+              }}/>
           </Grid>
 
           <Grid item xs={2}>
