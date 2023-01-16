@@ -8,6 +8,7 @@ import { useAuthContext } from "../context/AuthProvider";
 const categories = ["Їжа", "Матеріали", "Засоби гігієни", "Одяг", "Техніка", "Меблі"];
 
 interface IPost {
+  _id: string;
   title: string;
   type: string;
   categories: Array<string>;
@@ -22,7 +23,6 @@ export default function Search() {
   const [city, setCity] = useState<string | null>("");
   const [error, setError] = useState<string>();
   const [result, setResult] = useState<Array<IPost> | null>();
-  const [openContacts, setOpenContacts] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
 
@@ -49,34 +49,56 @@ export default function Search() {
     }
   };
 
-  const Contacts = (post: any) => {
-    if (auth?.accessToken) {
-      return (
-        <Box>
-          <Typography variant="body2">email: {email}</Typography>
-          {post.linkContacts?.instagram && (
-            <Typography variant="body2">instagram: {post.linkContacts?.instagram}</Typography>
-          )}
-          {post.linkContacts?.telegram && (
-            <Typography variant="body2">telegram: {post.linkContacts?.telegram}</Typography>
-          )}
-        </Box>
-      );
-    }
-    return <Typography variant="caption">Ця опція доступна авторизованим користувачам</Typography>;
-  };
-
-  const openContactsBlock = async (post: any) => {
+  const getUserData = async (post: any) => {
     try {
-      const res = await Axios.get(`/api/user/${post.userId}`);
+      setEmail("");
+      console.log("post", post);
+      const res = await Axios.get(`/api/user/${post.name.userId}`);
 
       setEmail(res.data.user[0].email);
-      setOpenContacts(!openContacts);
     } catch (error: any) {
       console.log(error);
       setError(error?.message);
     }
   };
+
+  function ContactsButton(post: any) {
+    const [open, setOpen] = useState<boolean>(false);
+
+    console.log(post);
+
+    return (
+      <>
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            getUserData(post);
+            setOpen(!open);
+          }}
+          size="small"
+          variant="outlined"
+        >
+          {" "}
+          Відкрити контакти
+        </Button>
+        {open ? (
+          auth?.accessToken ? (
+            <Box>
+              <Typography variant="body2">email:{email}</Typography>
+              {post.linkContacts?.instagram && (
+                <Typography variant="body2">instagram: {post.linkContacts?.instagram}</Typography>
+              )}
+              {post.linkContacts?.telegram && (
+                <Typography variant="body2">telegram: {post.linkContacts?.telegram}</Typography>
+              )}
+            </Box>
+          ) : (
+            <Typography variant="caption">Ця опція доступна авторизованим користувачам</Typography>
+          )
+        ) : null}
+      </>
+    );
+  }
 
   return (
     <>
@@ -171,19 +193,8 @@ export default function Search() {
                       </Typography>
                       <Box marginTop={5}>
                         {" "}
-                        <Button
-                          onClick={() => {
-                            openContactsBlock(post);
-                          }}
-                          size="small"
-                          variant="outlined"
-                        >
-                          {" "}
-                          Відкрити контакти
-                        </Button>
+                        <ContactsButton name={post} />
                       </Box>
-
-                      {openContacts && <Contacts />}
                     </Grid>
                     <Grid item xs={8}>
                       {" "}
