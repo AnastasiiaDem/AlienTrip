@@ -1,13 +1,13 @@
-import {Box, Button} from '@mui/material';
-import {Link} from 'react-router-dom';
-import Header from '../components/Header';
-import {useAuthContext} from '../context/AuthProvider';
-import Search from '../components/Search';
+import { Box, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import Header from "../components/Header";
+import Search from "../components/Search";
+import { useAuthContext } from "../context/AuthProvider";
 
 export default function Home() {
-  const {auth} = useAuthContext();
+  const { auth } = useAuthContext();
   console.log(auth);
-  
+
   return (
     <>
       <Header/>
@@ -21,7 +21,7 @@ export default function Home() {
           Створити допис
         </Button>
       </Box>
-      
+   
       <Search/>
     </>
   );
