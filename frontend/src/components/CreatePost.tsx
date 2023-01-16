@@ -131,18 +131,24 @@ export default function CreatePost() {
                     Потребую допомоги
                   </MenuItem>
                 </TextField>
-
-                <Box>
-                  <Autocomplete
-                    id="category"
-                    options={categories}
-                    onChange={(e: any, newValue: string | null) => {
-                      setCategory(newValue);
-                    }}
-                    renderInput={(params) => <TextField {...params} label="Категорія" />}
-                  />
-                </Box>
-
+                <TextField
+                  select
+                  id="category"
+                  name="category"
+                  label="Категорія"
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  fullWidth
+                  required
+                  defaultValue={''}
+                >
+                  {categories.map(option => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
                 <TextField
                   id="title"
                   name="title"

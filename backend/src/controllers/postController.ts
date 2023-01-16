@@ -4,7 +4,7 @@ import express from "express";
 import Post from "../model/PostModel";
 
 export const createPost = async (req: express.Request, res: express.Response) => {
-  const { title, description, type, category, city, linkContacts } = req.body;
+  const { title, description, postType, category, city, linkContacts } = req.body;
 
   const cookies = req.cookies;
   if (!cookies?.token) return res.status(401).json({ error: "error no cookies" });

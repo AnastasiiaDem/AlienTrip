@@ -58,12 +58,12 @@ export default function Search() {
             <Typography variant="body2">instagram: {post.linkContacts?.instagram}</Typography>
           )}
           {post.linkContacts?.telegram && (
-            <Typography variant="body2">lelegram: {post.linkContacts?.telegram}</Typography>
+            <Typography variant="body2">telegram: {post.linkContacts?.telegram}</Typography>
           )}
         </Box>
       );
     }
-    return <Typography variant="body1">Ця опція доступна авторизована користувачам</Typography>;
+    return <Typography variant="caption">Ця опція доступна авторизованим користувачам</Typography>;
   };
 
   const openContactsBlock = async (post: any) => {
