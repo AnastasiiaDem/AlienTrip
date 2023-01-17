@@ -39,6 +39,7 @@ export const createPost = async (req: express.Request, res: express.Response) =>
 
 export const updatePost = async (req: express.Request, res: express.Response) => {
   const id = req.params.id;
+
   !id && res.status(400).json({ error: "no id" });
 
   const { title, description, postType, category, city, linkContacts } = req.body;
@@ -64,9 +65,11 @@ export const updatePost = async (req: express.Request, res: express.Response) =>
   };
 
   try {
-    const result = await Post.findByIdAndUpdate(id, update);
+    const result = await Post.findByIdAndUpdate(id, update, { new: true });
+
     res.status(200).json({ message: "Post is updated" });
   } catch (error: any) {
+    console.log(error);
     res.status(400).json({ error: error });
   }
 };
