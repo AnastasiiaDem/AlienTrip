@@ -22,8 +22,8 @@ routes.get("/refresh", refreshToken);
 routes.get("/logout", logoutUser);
 
 routes.post("/create", createPost);
-routes.put("/update", updatePost);
-routes.delete("/delete", deletePost);
+routes.put("/update/:id", updatePost);
+routes.delete("/delete/:id", deletePost);
 
 routes.get("/profile", profile);
 routes.get("/search", getPosts);
