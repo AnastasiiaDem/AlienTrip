@@ -7,8 +7,8 @@ import verifyToken from "../middleware/verifyToken";
 import verifyRoles from "../middleware/verifyRoles";
 import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
-import { createPost, getEmail, getPosts } from "../controllers/postController";
-import {getUserPosts, profile} from '../controllers/profileController';
+import { createPost, deletePost, getEmail, getPosts, updatePost } from "../controllers/postController";
+import { getUserPosts, profile } from "../controllers/profileController";
 
 const routes = require("express").Router();
 
@@ -22,6 +22,8 @@ routes.get("/refresh", refreshToken);
 routes.get("/logout", logoutUser);
 
 routes.post("/create", createPost);
+routes.put("/update", updatePost);
+routes.delete("/delete", deletePost);
 
 routes.get("/profile", profile);
 routes.get("/search", getPosts);
