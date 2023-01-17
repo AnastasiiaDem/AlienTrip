@@ -3,28 +3,29 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import Search from "../components/Search";
 import { useAuthContext } from "../context/AuthProvider";
-import React, {useState} from 'react';
-import {toast} from 'react-toastify';
-import Axios from '../config/axiosConfig';
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import Axios from "../config/axiosConfig";
 
 export default function Home() {
   const { auth } = useAuthContext();
-  
+
   return (
     <>
-      <Header/>
-      <Box>
-        <Box marginTop={10}>
-          <Link color="green" to={'/admin'}>Admin</Link>
-          <Link to={'/moderator'}>Moderator</Link>
-          <Link to={'/info'}>Інформаційна сторінка</Link>
-        </Box>
-        <Button sx={{display: 'block', margin: '10px auto 30px auto', height: '35px', width: '170px', color: '#4c4c4c'}} color="inherit" component={Link} to={'/create'} variant="outlined">
+      <Header />
+      <Box marginTop={15}>
+        <Button
+          sx={{ display: "block", margin: "10px auto 30px auto", height: "35px", width: "170px", color: "#4c4c4c" }}
+          color="inherit"
+          component={Link}
+          to={"/create"}
+          variant="outlined"
+        >
           Створити допис
         </Button>
       </Box>
-   
-      <Search/>
+
+      <Search />
     </>
   );
 }

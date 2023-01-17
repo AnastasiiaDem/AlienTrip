@@ -50,7 +50,6 @@ export default function Search() {
 
   const getUserData = async (post: any) => {
     try {
-      setEmail("");
       const res = await Axios.get(`/api/user/${post.name.userId}`);
 
       setEmail(res.data.user[0].email);
@@ -62,7 +61,7 @@ export default function Search() {
 
   function ContactsButton(post: any) {
     const [open, setOpen] = useState<boolean>(false);
-    
+
     return (
       <>
         <Button
