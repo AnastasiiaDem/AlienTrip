@@ -19,9 +19,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const categories = ["Їжа", "Матеріали", "Засоби гігієни", "Одяг", "Техніка", "Меблі"];
+export const categories = ["Їжа", "Матеріали", "Засоби гігієни", "Одяг", "Техніка", "Меблі"];
 
-interface IPost {
+export interface IPost {
   userId: number;
   title: string;
   description: string;
@@ -97,9 +97,15 @@ export default function CreatePost() {
           <Grid item xs={10} sm={8} md={6} sx={{ marginTop: 3, marginBottom: 3 }}>
             <Paper
               elevation={8}
-              sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}
+              sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}
             >
-              <Button color="inherit" sx={{margin: '0 0 0 auto', minWidth: '40px'}} onClick={() => {navigate('/home', {replace: true})}}>
+              <Button
+                color="inherit"
+                sx={{ margin: "0 0 0 auto", minWidth: "40px" }}
+                onClick={() => {
+                  navigate("/home", { replace: true });
+                }}
+              >
                 x
               </Button>
               <Typography color={"primary"} component="h2" variant="h5" textAlign={"center"}>
@@ -124,10 +130,10 @@ export default function CreatePost() {
                   defaultValue={""}
                   sx={{ marginBottom: "30px" }}
                 >
-                  <MenuItem key='help' value='help'>
+                  <MenuItem key="help" value="help">
                     Можу допомогти
                   </MenuItem>
-                  <MenuItem key='needHelp' value='needHelp'>
+                  <MenuItem key="needHelp" value="needHelp">
                     Потребую допомоги
                   </MenuItem>
                 </TextField>
@@ -162,9 +168,9 @@ export default function CreatePost() {
                   }}
                   fullWidth
                   required
-                  defaultValue={''}
+                  defaultValue={""}
                 >
-                  {categories.map(option => (
+                  {categories.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}
                     </MenuItem>
