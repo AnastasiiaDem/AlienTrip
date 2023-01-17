@@ -1,15 +1,16 @@
-const routes = require("express").Router();
 import express from "express";
-
 import createUser from "../controllers/registerController";
 import loginUser from "../controllers/loginController";
-import refreshToken from "../controllers/resreshTokenController";
+import refreshToken from "../controllers/refreshTokenController";
 import getAllUsers from "../controllers/userController";
 import verifyToken from "../middleware/verifyToken";
 import verifyRoles from "../middleware/verifyRoles";
 import ROLES from "../config/roles";
 import logoutUser from "../controllers/logoutController";
 import { createPost, deletePost, getEmail, getPosts, updatePost } from "../controllers/postController";
+import { getUserPosts, profile } from "../controllers/profileController";
+
+const routes = require("express").Router();
 
 routes.get("/", (req: express.Request, res: express.Response) => {
   res.send("Test endpoint");
@@ -24,7 +25,9 @@ routes.post("/create", createPost);
 routes.put("/update", updatePost);
 routes.delete("/delete", deletePost);
 
+routes.get("/profile", profile);
 routes.get("/search", getPosts);
+routes.get("/profile/:id", getUserPosts);
 routes.get("/user/:id", getEmail);
 
 routes.get("/users", verifyRoles(ROLES.User), verifyToken, getAllUsers);

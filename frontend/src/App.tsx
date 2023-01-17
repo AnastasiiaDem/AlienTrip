@@ -14,6 +14,7 @@ import Unauthorized from "./pages/Unauthorized";
 import CheckToken from "./components/CheckToken";
 import CreatePost from "./components/CreatePost";
 import Layout from "./pages/Layout";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           >
             <Route path="info" element={<Info />} />
             <Route path="create" element={<CreatePost />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
 

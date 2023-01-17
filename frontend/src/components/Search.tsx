@@ -30,7 +30,6 @@ export default function Search() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setResult(null);
-    console.log("submit");
     e.preventDefault();
 
     try {
@@ -122,7 +121,7 @@ export default function Search() {
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
-            ></TextField>
+            />
           </Grid>
 
           <Grid item xs={2}>

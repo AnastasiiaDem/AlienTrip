@@ -4,13 +4,14 @@ import Axios from "../config/axiosConfig";
 import useForm from "../hooks/useForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {useNavigate} from 'react-router-dom';
 
 export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const { errors, handleChange } = useForm();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -43,6 +44,9 @@ export default function Register() {
         autoClose: 3000,
         closeOnClick: true,
       });
+      setTimeout(() => {
+        navigate("/login", { replace: true });
+      }, 1500);
     } catch (error: any) {
       const err = error?.response?.data?.message || error.message;
       toast.update(id, { render: err, type: "error", isLoading: false, autoClose: 3000, closeOnClick: true });
@@ -78,8 +82,7 @@ export default function Register() {
                   onChange={(e) => {
                     setFirstName(e.target.value);
                     handleChange(e.target.name, e.target.value);
-                  }}
-                ></TextField>
+                  }}/>
                 {errors?.firstName && (
                   <Paper variant="elevation" sx={{ width: "100%", bgcolor: "text.disabled" }}>
                     <Typography variant="body2" padding={1} sx={{ color: "white" }}>
@@ -97,8 +100,7 @@ export default function Register() {
                   onChange={(e) => {
                     setLastName(e.target.value);
                     handleChange(e.target.name, e.target.value);
-                  }}
-                ></TextField>
+                  }}/>
                 {errors?.lastName && (
                   <Paper variant="elevation" sx={{ width: "100%", bgcolor: "text.disabled" }}>
                     <Typography variant="body2" padding={1} sx={{ color: "white" }}>
@@ -116,8 +118,7 @@ export default function Register() {
                   onChange={(e) => {
                     setEmail(e.target.value);
                     handleChange(e.target.name, e.target.value);
-                  }}
-                ></TextField>
+                  }}/>
                 {errors?.email && (
                   <Paper variant="elevation" sx={{ width: "100%", bgcolor: "text.disabled" }}>
                     <Typography variant="body2" padding={1} sx={{ color: "white" }}>
@@ -136,8 +137,7 @@ export default function Register() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                     handleChange(e.target.name, e.target.value);
-                  }}
-                ></TextField>
+                  }}/>
                 {errors?.password && (
                   <Paper variant="elevation" sx={{ width: "100%", bgcolor: "text.disabled" }}>
                     <Typography variant="body2" padding={1} sx={{ color: "white" }}>

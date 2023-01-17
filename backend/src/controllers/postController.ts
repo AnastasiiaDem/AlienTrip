@@ -94,7 +94,6 @@ export const deletePost = async (req: express.Request, res: express.Response) =>
 
 export const getPosts = async (req: express.Request, res: express.Response) => {
   const { title, postType, category, city } = req.query;
-  console.log(title, postType, category, city);
 
   try {
     const posts = await Post.find({
@@ -121,7 +120,6 @@ export const getPosts = async (req: express.Request, res: express.Response) => {
 
 export const getEmail = async (req: express.Request, res: express.Response) => {
   const id = req.params.id;
-  console.log(req.params);
 
   try {
     const user = await User.find({ _id: id }).exec();
