@@ -19,7 +19,7 @@ export default function Home() {
           <Link to={'/moderator'}>Moderator</Link>
           <Link to={'/info'}>Інформаційна сторінка</Link>
         </Box>
-        <Button sx={{display: 'block', margin: '10px auto 30px auto', height: '30px', width: '170px'}} color="inherit" component={Link} to={'/create'} variant="contained">
+        <Button sx={{display: 'block', margin: '10px auto 30px auto', height: '35px', width: '170px', color: '#4c4c4c'}} color="inherit" component={Link} to={'/create'} variant="outlined">
           Створити допис
         </Button>
       </Box>
